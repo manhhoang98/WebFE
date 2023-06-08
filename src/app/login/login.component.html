@@ -1,0 +1,76 @@
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 40px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f8f8f8;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    .form-group button {
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 3px;
+      background-color: #4CAF50;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .form-group button:hover {
+      background-color: #45a049;
+    }
+  </style>
+
+
+<body>
+<div class="container">
+  <h2>Đăng nhập</h2>
+  <form  [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="form-group">
+      <label for="username">Tên đăng nhập:</label>
+      <input type="text" id="username" name="username"  formControlName="username" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Mật khẩu:</label>
+      <input type="password" id="password" name="password" formControlName="password" required>
+    </div>
+    <div class="form-group">
+      <button type="submit" [disabled]="!loginForm.valid">Đăng nhập</button>
+    </div>
+    <div class="form-group" style="text-align: center">
+      <a>Hoặc </a>
+    </div>
+    <div class="form-group" style="text-align: center">
+      <a routerLink="/register">Tạo tài khoản mới </a>
+    </div>
+  </form>
+</div>
+

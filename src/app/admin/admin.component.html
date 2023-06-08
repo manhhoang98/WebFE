@@ -1,0 +1,249 @@
+
+
+
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background-color: lightblue;
+      padding: 10px;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    .add-button {
+      background-color: red;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: aqua;
+    }
+    .available {
+      color: green;
+    }
+
+    .out-of-stock {
+      color: red;
+    }
+
+  </style>
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Logo</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+
+    </div>
+    <div class="d-flex">
+      <form class="d-flex ms-3">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-primary" type="submit">Search</button>
+      </form>
+      <a class="nav-link ms-3" href="#">Login / Register</a>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <h3>Danh sách sản phẩm</h3>
+
+</header>
+<br>
+<br>
+
+<button class="add-button" data-bs-toggle="modal" data-bs-target="#myModal2" >+ Thêm mới</button>
+
+<table>
+  <thead>
+  <tr >
+    <th>STT</th>
+    <th>Tên sản phẩm </th>
+    <th>Số lượng </th>
+
+    <th>Giá</th>
+    <th>Hình ảnh</th>
+<!--    <th>Danh mục</th>-->
+    <th>Trạng thái</th>
+    <th>Cập nhật</th>
+
+
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let i of listProduct" >
+    <td>{{i.id}}</td>
+    <td>{{i.nameProduct}}</td>
+    <td>{{i.quantity}}</td>
+
+    <td>{{i.price}}</td>
+<!--    <td>{{i.category.name}}</td>-->
+    <td ><img src="{{i.image}}" width="150" height="100"></td>
+    <td>
+      <span *ngIf="i.quantity!=0; else outOfStock" class="available">Còn hàng</span>
+      <ng-template #outOfStock>
+        <span class="out-of-stock">Hết hàng</span>
+      </ng-template>
+    </td>
+    <td>
+      <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#myModal1" (click)="getProductById(i.id)">Chỉnh sửa</button>
+      <button *ngIf="i.quantity!=0; else inStockButton" type="button" class="btn btn-outline-secondary" (click)="deleteProduct(i.id)">Đánh dấu hết hàng</button>
+      <ng-template #inStockButton>
+        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#myModal" (click)="setidProduct(i.id)">Đánh dấu còn hàng</button>
+      </ng-template>
+    </td>
+
+
+  </tr>
+  </tbody>
+</table>
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title" align="center">Chỉnh sửa trạng thái sản phẩm</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body" align="center">
+          Nhập số lượng muốn bán :
+          <br>
+          <input type="number"[(ngModel)]="quantityProduct" />
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="updateQuantityProduct()" data-bs-dismiss="modal">Xác nhận</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal" id="myModal1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Sửa sản pẩm</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form [formGroup]="productForm" (ngSubmit)="editProduct()">
+            <div class="form-group">
+              <label for="nameProduct">Tên sản phẩm:</label>
+              <input type="text" class="form-control" id="nameProduct" formControlName="nameProduct" required>
+            </div>
+            <div class="form-group">
+              <label for="price">Giá:</label>
+              <input type="number" class="form-control" id="price" formControlName="price" required>
+            </div>
+            <div class="form-group">
+              <label for="quantity">Số lượng:</label>
+              <input type="number" class="form-control" id="quantity" formControlName="quantity" required>
+            </div>
+            <div class="form-group">
+              <label for="image">Ảnh:</label>
+              <input type="text" class="form-control" id="image" formControlName="image" required>
+            </div>
+            <div class="form-group">
+              <label for="category">Danh mục:</label>
+              <select class="form-control" id="category" formControlName="category" required>
+                <option *ngFor="let category of listCategory" [value]="category.id"  [ngValue]="category">{{ category.name }}</option>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" (click)="editProduct()" data-bs-dismiss="modal">Save</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Modal footer -->
+
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="modal" id="myModal2">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Thêm sản phẩm</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form [formGroup]="productForm" (ngSubmit)="create()">
+            <div class="form-group">
+              <label for="nameProduct">Tên sản phẩm:</label>
+              <input type="text" class="form-control" id="nameProduct1" formControlName="nameProduct" required>
+            </div>
+            <div class="form-group">
+              <label for="price">Giá:</label>
+              <input type="number" class="form-control" id="price1" formControlName="price" required>
+            </div>
+            <div class="form-group">
+              <label for="quantity">Số lượng:</label>
+              <input type="number" class="form-control" id="quantity1" formControlName="quantity" required>
+            </div>
+            <div class="form-group">
+              <label for="image">Ảnh:</label>
+              <input type="text" class="form-control" id="image1" formControlName="image" required>
+            </div>
+            <div class="form-group">
+              <label for="category">Danh mục:</label>
+              <select class="form-control" id="category1" formControlName="category" required>
+                <option *ngFor="let category of listCategory" [value]="category.id"  [ngValue]="category">{{ category.name }}</option>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" (click)="create()" data-bs-dismiss="modal">Thêm mới</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
