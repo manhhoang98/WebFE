@@ -27,9 +27,22 @@ export class HomeComponent implements OnInit{
 
   listProduct : Product[]=[];
   listCategory: Category[]=[];
+
+  img: any;
+  username : any;
   ngOnInit(): void {
     this.getAllProduct();
     this.getAllCategory();
+    this.img  =localStorage.getItem("img");
+    this.username =localStorage.getItem("username");
+  }
+  logout(){
+    localStorage.clear();
+    Swal.fire(
+      ' ',
+      '<h2 style="color: green; font-size: 32px">Đăng xuất thành công </h2>',
+      'success')
+    this.router.navigate(["/home"]);
   }
   public getAllProduct(){
     this.productService.getProduct().subscribe( (data) => {
@@ -64,7 +77,14 @@ export class HomeComponent implements OnInit{
     console.log(this.account_id);
     this.cartService.pushInCart(this.account_id,product_id).subscribe( (data) => {
       console.log(data);
-      this.router.navigate(["/cart"]);
-    } )
+
+    },(error)=>{Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: 'Thêm thành công !',
+      showConfirmButton: false,
+      timer: 1500
+      })
+      this.router.navigate(["/cart"]);} )
   }
 }

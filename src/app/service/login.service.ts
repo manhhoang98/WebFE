@@ -41,6 +41,26 @@ export class LoginService {
   getUsername(){
     return localStorage.getItem("username");
   }
+  setImg(img: any){
+    localStorage.setItem("img",img);
+  }
+  getphone(){
+    return localStorage.getItem("phoneNumber");
+  }
+  setphone(phoneNumber: any){
+    localStorage.setItem("phoneNumber",phoneNumber);
+  }
+
+  getaddress(){
+    return localStorage.getItem("address");
+  }
+  setaddress(address: any){
+    localStorage.setItem("address",address);
+  }
+
+  getImg(){
+    return localStorage.getItem("img");
+  }
   setRole(roles:any){
     localStorage.setItem("roles",roles)
   }

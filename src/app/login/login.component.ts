@@ -34,6 +34,9 @@ export class LoginComponent implements OnInit{
         this.loginService.setId(data.id);
         this.loginService.setUsername(data.username);
         this.loginService.setRole(data.roles.id);
+        this.loginService.setImg(data.img);
+        this.loginService.setphone(data.phoneNumber);
+        this.loginService.setaddress(data.address);
         this.router.navigate(["/home"]);
         this.idroles=localStorage.getItem("roles");
         if (this.idroles==1){

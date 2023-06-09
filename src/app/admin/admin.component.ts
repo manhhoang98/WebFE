@@ -8,6 +8,7 @@ import {Product} from "../module/Product";
 import {AccountService} from "../service/account.service";
 import {Category} from "../module/Category";
 import {FormControl, FormGroup} from "@angular/forms";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-admin',
@@ -18,16 +19,15 @@ export class AdminComponent implements OnInit {
   constructor(private productService : ProductService,
               private router:Router,
               private categoryService: CategoryService,
-              private cartService:CartService,
-
-              private loginService:LoginService,
-              private accountService : AccountService
   ) {
   }
 
   ngOnInit(): void {
     this.getAllProduct();
     this.getAllCategory();
+    this.img  =localStorage.getItem("img");
+    // @ts-ignore
+    this.username =localStorage.getItem("username");
   }
 
 
@@ -39,6 +39,9 @@ export class AdminComponent implements OnInit {
 
   category: Category= new Category();
   listCategory: Category[]=[];
+
+  img: any;
+  username : String="";
   public productForm :any = new FormGroup({
     nameProduct: new FormControl(''),
     price: new FormControl(''),
@@ -48,6 +51,14 @@ export class AdminComponent implements OnInit {
 
   });
 
+  logout(){
+    localStorage.clear();
+    Swal.fire(
+      ' ',
+      '<h2 style="color: green; font-size: 32px">Đăng xuất thành công </h2>',
+      'success')
+    this.router.navigate(["/home"]);
+  }
   public getAllProduct(){
     this.productService.getProduct().subscribe( (data) => {
       console.log(data);

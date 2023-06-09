@@ -6,6 +6,7 @@ username?:string
 password ?: string;
 address?: string
 phoneNumber?:number
+  img ?: string;
 
   roles?:Roles
 }

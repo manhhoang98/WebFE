@@ -36,8 +36,8 @@ export class AccountService {
     return this.httpClient.get<any>(url, httpOptions)
       .pipe(catchError(this.handleError));
   }
-  public updateAccount(id: number, data: Account): Observable<any> {
-    const url = this.REST_API_SERVER_ACCOUNT + "/" + id;
+  public updateAccount( data: Account): Observable<any> {
+    const url = this.REST_API_SERVER_ACCOUNT + "/updateAccount" ;
     return this.httpClient.put<any>(url, data, httpOptions)
       .pipe(catchError(this.handleError));
   }

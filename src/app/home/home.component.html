@@ -1,113 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product List</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    /* Header */
-    .header {
-      background-image: url('https://kisvn.vn/wp-content/uploads/2022/12/san-giao-dich-chung-khoan-4.jpg');
-      height: 250px;
-
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-
-    }
-
-    /* Navbar */
-    .navbar-category {
-      padding-top: 10px;
-    }
-
-    /* Footer */
-    .footer {
-      background-color: #f8f9fa;
-      padding: 20px 0;
-      text-align: center;
-    }
-  </style>
-</head>
-
-<body>
 
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Logo</a>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" routerLink="/home">Trang chủ</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/cart">Giỏ hàng của bạn</a>
+          </li>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Cart</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Đơn hàng</a>
-        </li>
-      </ul>
-    </div>
-    <div class="d-flex">
-      <img src="cart-icon.png" alt="Cart" width="30" height="30">
-      <form class="d-flex ms-3">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" #name>
-        <button class="btn btn-outline-primary" type="submit" (click)="searchByname(name.value)">Search</button>
-      </form>
-      <a class="nav-link ms-3" href="#">Login / Register</a>
-    </div>
-  </div>
-</nav>
-
-<div class="container">
-  <div class="row">
-    <div class="col-lg-3">
-      <div class="navbar-category">
-        <h5>Danh mục</h5>
-        <ul class="list-group">
-          <a   (click)="getAllProduct()" > <li class="list-group-item" >Toàn bộ sản phẩm</li></a>
-
-          <a  *ngFor="let c of listCategory" (click)="getProductByCategory(c.id)"> <li class="list-group-item" >{{c.name}}</li></a>
 
         </ul>
       </div>
+      <div class="circular-dropdown">
+        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="{{img}}" alt="Dropdown" style="width: 35px; height: 35px;border-radius: 50%">
+        </button>
+        <ng-container *ngIf="username; else loginSection">
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li><a class="dropdown-item">Chào mừng: {{username}}</a></li>
+            <li><a class="dropdown-item" routerLink="/user">Quản lí tài khoản</a></li>
+            <li (click)="logout()"><a class="dropdown-item">Đăng xuất</a></li>
+          </ul>
+        </ng-container>
+        <ng-template #loginSection>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li><a class="dropdown-item" routerLink="/login">Đăng nhập</a></li>
+          </ul>
+        </ng-template>
+      </div>
+
     </div>
-    <div class="col-lg-9">
-      <h2>Danh sách sản phẩm</h2>
-      <div class="row" >
-        <div class="col-md-4"*ngFor="let i of listProduct">
-          <div class="card mb-4">
-            <img src="{{i.image}}" class="card-img-top" alt="Product 1"  height="300px">
-            <div class="card-body">
-              <h5 class="card-title">{{i.nameProduct}}</h5>
-              <p class="card-text">{{i.price}}</p>
-              <a class="btn btn-primary" (click)="pushInCart(i.id)">Thêm vào giỏ hàng </a>
-            </div>
-          </div>
-        </div>
-
-
-        <!-- Rest of the product cards -->
+  </nav>
+  <nav class="navbar navbar-light bg-light" style="margin-top: 50px;margin-left: 25%;margin-right: 25%; width: 50% ; text-align: center">
+    <div class="container">
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" #name>
+        <button class="btn btn-outline-primary" type="submit" (click)="searchByname(name.value)">Search</button>
+      </form>
+      <div class="dropdown">
+        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+          Danh mục sản phẩm
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+           <li (click)="getAllProduct()"><a class="dropdown-item" >Toàn bộ sản phẩm</a></li>
+          <li  *ngFor="let c of listCategory" (click)="getProductByCategory(c.id)"><a class="dropdown-item" >{{c.name}}</a></li>
+        </ul>
       </div>
     </div>
-  </div>
-</div>
+  </nav>
 
-<footer class="footer">
+
+<section class="featured-products">
   <div class="container">
-    <p>&copy; 2023 Your Company. All rights reserved.</p>
+    <h2>Sản phẩm nổi bật</h2>
+    <div class="row" >
+      <div class="col-md-3"*ngFor="let i of listProduct">
+        <div class="card mb-3">
+          <img src="{{i.image}}" class="card-img-top" alt="Product 1" width="200"  height="300px">
+          <div class="card-body">
+            <h5 class="card-title">{{i.nameProduct}}</h5>
+            <p class="card-text">Giá :{{i.price}} VND</p>
+            <a class="btn btn-primary" (click)="pushInCart(i.id)">Thêm vào giỏ hàng </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
-</footer>
+</section>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.5.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+  <section class="company-info" >
+    <div class="container">
+      <h2>Hệ thống cửa hàng</h2>
+      <p>Store 13: 140 Phạm Văn Đồng, Phường Mai Dịch, Cầu Giấy , Hà Nội.
 
-</html>
+        Store 14: 39 Tây Sơn, Phường Quang Trung, Đống Đa, Hà Nội.
+
+        Store 15: 231 Bạch Mai, P. Cầu Dền, Quận Hai Bà Trưng, Hà Nội
+
+      </p>
+    </div>
+  </section>
+
+
