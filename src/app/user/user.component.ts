@@ -39,8 +39,10 @@ export class UserComponent implements OnInit {
   });
 
 
-  logout() {
+  logout(){
     localStorage.clear();
+    this.img= "";
+    this.username= "";
     Swal.fire(
       ' ',
       '<h2 style="color: green; font-size: 32px">Đăng xuất thành công </h2>',
@@ -68,6 +70,7 @@ export class UserComponent implements OnInit {
     const confirmDelete = confirm('Xác nhận xóa tài khoản ?');
     if (confirmDelete) {
       this.deleteAccount();
+      this.setStorage(null);
     }
   }
 
@@ -89,6 +92,13 @@ export class UserComponent implements OnInit {
     })
   }
 
+  public  setStorage(data :any){
+    this.img = data.img;
+    this.phone = data.phoneNumber;
+    this.address = data.address;
+    this.username = data.username;
+    this.account_id = data.id;
+  }
   public editAccount() {
     var account : Account= {
       id : this.account_id,
@@ -108,6 +118,7 @@ export class UserComponent implements OnInit {
         this.loginServiec.setImg(data.img);
         this.loginServiec.setphone(data.phoneNumber);
         this.loginServiec.setaddress(data.address);
+       this.setStorage(data);
       });
     })
   }

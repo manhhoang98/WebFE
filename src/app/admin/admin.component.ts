@@ -53,6 +53,8 @@ export class AdminComponent implements OnInit {
 
   logout(){
     localStorage.clear();
+    this.img= "";
+    this.username= "";
     Swal.fire(
       ' ',
       '<h2 style="color: green; font-size: 32px">Đăng xuất thành công </h2>',
@@ -126,6 +128,4 @@ export class AdminComponent implements OnInit {
         this.idProduct=0;
       });
     }
-
-
 }

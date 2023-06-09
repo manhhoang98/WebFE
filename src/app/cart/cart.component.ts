@@ -28,16 +28,20 @@ export class CartComponent implements OnInit{
     this.cartService.getAllCartItem(this.loginService.getId()).subscribe( (data) => {
       console.log(data);
       this.listCartItem = data;
+      if (data == null){
+        this.totalPrice =0;
+      }else
       for (let i = 0; i < this.listCartItem.length; i++) {
         this.totalPrice += this.listCartItem[i].product.price * this.listCartItem[i].amount
       }
     })
-
   }
   account_id: any
 
   logout(){
     localStorage.clear();
+    this.img= "";
+    this.username= "";
     Swal.fire(
       ' ',
       '<h2 style="color: green; font-size: 32px">Đăng xuất thành công </h2>',
@@ -54,6 +58,7 @@ export class CartComponent implements OnInit{
           ;
 
     },(error)=>{
+      this.totalPrice =0;
       this.getAllCart();
       Swal.fire({
         position: 'center',

@@ -24,7 +24,8 @@ export class HomeComponent implements OnInit{
               private loginService:LoginService
               ) {
   }
-
+  M: number = 1;
+  totalItemsM: number = 0;
   listProduct : Product[]=[];
   listCategory: Category[]=[];
 
@@ -38,6 +39,8 @@ export class HomeComponent implements OnInit{
   }
   logout(){
     localStorage.clear();
+    this.img= "";
+    this.username= "";
     Swal.fire(
       ' ',
       '<h2 style="color: green; font-size: 32px">Đăng xuất thành công </h2>',
@@ -81,4 +84,8 @@ export class HomeComponent implements OnInit{
     },(error)=>{
       this.router.navigate(["/cart"]);} )
   }
+  PAGEP($event: number) {
+    this.M = ($event)
+  }
+
 }

@@ -22,7 +22,7 @@
         <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
           <img src="{{img}}" alt="Dropdown" style="width: 35px; height: 35px;border-radius: 50%">
         </button>
-        <ng-container *ngIf="username; else loginSection">
+        <ng-container *ngIf="username!=null; else loginSection">
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <li><a class="dropdown-item">Chào mừng: {{username}}</a></li>
             <li><a class="dropdown-item" routerLink="/user">Quản lí tài khoản</a></li>
