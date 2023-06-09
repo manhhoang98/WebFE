@@ -33,7 +33,7 @@ export class RegisterComponent {
 
       if (password == confirm_password) {
         this.accountService.register(account as Account).subscribe(data => {
-          this.router.navigate(['login']);
+          this.router.navigate(['/login']);
         });
         return;
       }else {

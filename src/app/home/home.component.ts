@@ -78,13 +78,7 @@ export class HomeComponent implements OnInit{
     this.cartService.pushInCart(this.account_id,product_id).subscribe( (data) => {
       console.log(data);
 
-    },(error)=>{Swal.fire({
-      position: 'center',
-      icon: 'success',
-      title: 'Thêm thành công !',
-      showConfirmButton: false,
-      timer: 1500
-      })
+    },(error)=>{
       this.router.navigate(["/cart"]);} )
   }
 }
